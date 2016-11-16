@@ -102,7 +102,7 @@ th:nth-child(4) {
 | Name | Type | Field Number | Description|
 | ---- | ---- | ------------ | -----------|
 | message | TYPE_STRING | 1 |  |
-| generated_at | TYPE_INT64 | 2 |  |
+| generated_at | TYPE_STRING | 2 |  |
 
 ### Services
 

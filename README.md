@@ -30,4 +30,18 @@ To use:
 curl "locahost:11000/print?name=Test"
 ```
 
-You should see the message in the JSON response.
+You should see the message in the JSON response, like so:
+```
+➜  printer git:(master) ✗ curl -i "localhost:11000/print?name=Ian%20Molee"
+HTTP/1.1 200 OK
+Date: Wed, 16 Nov 2016 04:46:01 GMT
+Content-Length: 78
+Content-Type: text/plain; charset=utf-8
+
+{"message":"Hello, Ian Molee!","generated_at":"Tue Nov 15 20:46:01 PST 2016"}
+```
+
+## To Stop
+```
+make stop
+```

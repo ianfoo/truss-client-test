@@ -15,5 +15,9 @@ run:
 		-grpc.addr $(PRINTER_GRPC_ADDR) \
 		-debug.addr $(PRINTER_DEBUG_ADDR)
 
-.PHONY: run
+stop:
+	-pkill -TERM -f -- "-http.addr $(GENERATOR_HTTP_ADDR)"
+	-pkill -TERM -f -- "-http.addr $(PRINTER_HTTP_ADDR)"
+
+.PHONY: run stop
 

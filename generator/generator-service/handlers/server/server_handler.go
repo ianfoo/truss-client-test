@@ -26,13 +26,13 @@ type generatorService struct{}
 func (s generatorService) Generate(ctx context.Context, in *pb.GenerateRequest) (*pb.GenerateResponse, error) {
 	_ = ctx
 	_ = in
-    name := in.Name
-    if name == "" {
-        name = "Somebody:Generated"
-    }
+	name := in.Name
+	if name == "" {
+		name = "Somebody:Generated"
+	}
 	response := pb.GenerateResponse{
-        Greeting: "Hello, " + name,
-        GeneratedAt: time.Now().Unix(),
+		Greeting:    "Hello, " + name,
+		GeneratedAt: time.Now().Unix(),
 	}
 	return &response, nil
 }

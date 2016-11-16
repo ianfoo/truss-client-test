@@ -3,7 +3,6 @@ package svc
 // This file contains the Service definition, and a basic service
 // implementation. It also includes service middlewares.
 
-import (
 //_ "errors"
 //_ "time"
 
@@ -13,7 +12,6 @@ import (
 //_ "github.com/go-kit/kit/metrics"
 
 //pb "github.com/hasian/truss-client-test/printer/printer-service"
-)
 
 // Middleware describes a service (as opposed to endpoint) middleware.
 //type Middleware func(Service) Service

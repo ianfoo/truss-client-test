@@ -17,6 +17,6 @@ message PrintRequest {
 
 message PrintResponse {
     string message = 1;
-    int64 generated_at = 2;
+    string generated_at = 2;
 }
 

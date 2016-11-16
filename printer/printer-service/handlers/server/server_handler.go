@@ -5,20 +5,21 @@ package handler
 
 import (
 	_ "errors"
-	_ "time"
+	"time"
+
+	"fmt"
+	"log"
+	"os"
 
 	"golang.org/x/net/context"
-    "fmt"
-    "log"
-    "os"
 
 	_ "github.com/go-kit/kit/log"
 	_ "github.com/go-kit/kit/metrics"
 
+	genpb "github.com/hasian/truss-client-test/generator/generator-service"
+	genclient "github.com/hasian/truss-client-test/generator/generator-service/generated/client/http"
+	gensvc "github.com/hasian/truss-client-test/generator/generator-service/handlers/server"
 	pb "github.com/hasian/truss-client-test/printer/printer-service"
-    genclient "github.com/hasian/truss-client-test/generator/generator-service/generated/client/http"
-    gensvc "github.com/hasian/truss-client-test/generator/generator-service/handlers/server"
-    genpb  "github.com/hasian/truss-client-test/generator/generator-service"
 )
 
 var gen gensvc.Service
@@ -34,21 +35,21 @@ type printerService struct{}
 func (s printerService) Print(ctx context.Context, in *pb.PrintRequest) (*pb.PrintResponse, error) {
 	_ = ctx
 	_ = in
-    name := in.Name
-    if name == "" {
-        name = "SOMEBODY:Printer"
-    }
-    gresp, err := gen.Generate(context.Background(), &genpb.GenerateRequest{
-        Name: name,
-    })
-    if err != nil {
-        return &pb.PrintResponse{
-            Message: fmt.Sprintf("error generating message: %v", err),
-        }, nil
-    }
+	name := in.Name
+	if name == "" {
+		name = "SOMEBODY:Printer"
+	}
+	gresp, err := gen.Generate(context.Background(), &genpb.GenerateRequest{
+		Name: name,
+	})
+	if err != nil {
+		return &pb.PrintResponse{
+			Message: fmt.Sprintf("error generating message: %v", err),
+		}, nil
+	}
 	response := pb.PrintResponse{
-	    Message: gresp.Greeting + "!",
-	    GeneratedAt: gresp.GeneratedAt,
+		Message:     gresp.Greeting + "!",
+		GeneratedAt: time.Unix(gresp.GeneratedAt, 0).Format(time.UnixDate),
 	}
 	return &response, nil
 }
@@ -58,15 +59,15 @@ type Service interface {
 }
 
 func init() {
-    log.Println("starting printer service")
-    genaddr := os.Getenv("GENERATOR_ADDR")
-    if genaddr == "" {
-        genaddr = "localhost:10000"
-        log.Printf("Trying %s for generator address", genaddr)
-    }
-    var err error
-    gen, err = genclient.New(genaddr)
-    if err != nil {
-        log.Fatalf("error creating generator client: %v", err)
-    }
+	log.Println("starting printer service")
+	genaddr := os.Getenv("GENERATOR_ADDR")
+	if genaddr == "" {
+		genaddr = "localhost:10000"
+		log.Printf("Trying %s for generator address", genaddr)
+	}
+	var err error
+	gen, err = genclient.New(genaddr)
+	if err != nil {
+		log.Fatalf("error creating generator client: %v", err)
+	}
 }
