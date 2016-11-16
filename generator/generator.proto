@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package generator;
+import "google/api/annotations.proto";
+
+service Generator {
+    rpc Generate(GenerateRequest) returns (GenerateResponse) {
+        option (google.api.http) = {
+            get: "/Generate"
+        };
+    }
+}
+
+message GenerateRequest {
+    string name = 1;
+}
+
+message GenerateResponse {
+    string greeting = 1;
+    int64 generated_at = 2;
+}

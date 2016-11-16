@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package printer;
+import "google/api/annotations.proto";
+
+service Printer {
+    rpc Print(PrintRequest) returns (PrintResponse) {
+        option (google.api.http) = {
+            get: "/Print"
+        };
+    }
+}
+
+message PrintRequest {
+    string name = 1;
+}
+
+message PrintResponse {
+    string message = 1;
+    int64 generated_at = 2;
+}
+
